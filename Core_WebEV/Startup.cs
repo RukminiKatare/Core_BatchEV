@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core_WebApp.Models;
 using Core_WebEV.Models;
 using Core_WebEV.Services;
 using Microsoft.AspNetCore.Builder;
