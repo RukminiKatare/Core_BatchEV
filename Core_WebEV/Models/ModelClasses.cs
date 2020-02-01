@@ -3,43 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Core_WebEV.Models
+namespace Core_WebApp.Models
 {
     public class Category
     {
-        [Key]
+        [Key] // primary identity Key
         public int CategoryRowId { get; set; }
-        [Required(ErrorMessage ="Category ID is required")]
+        [Required(ErrorMessage = "Categry Id Must")]
         public string CategoryId { get; set; }
-
-        [Required(ErrorMessage = "Category Name is required")]
-        public string CateforyName { get; set; }
-        [Required(ErrorMessage = "Base Price is required")]
-        public int BasePrice { get; set;}
-        //1-M relationship
-        public IList<Product> Products { get; set; }
+        [Required(ErrorMessage = "Categry Name Must")]
+        public string CategoryName { get; set; }
+        [Required(ErrorMessage = "Base Price Must")]
+        public int BasePrice { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 
     public class Product
     {
-        [Key] //Identity key
-        [Required(ErrorMessage = "Product Row Id is required")]
+        [Key]
         public int ProductRowId { get; set; }
-        [Required(ErrorMessage = "Product Id is required")]
+        [Required(ErrorMessage = "Product Id Must")]
         public string ProductId { get; set; }
-        [Required(ErrorMessage = "Product Name is required")]
+        [Required(ErrorMessage = "Product Name Must")]
         public string ProductName { get; set; }
-        [Required(ErrorMessage = "Manufacturer is required")]
+        [Required(ErrorMessage = "Manufacturer Must")]
         public string Manufacturer { get; set; }
-        [Required(ErrorMessage = "Description is required")]
+        [Required(ErrorMessage = "Description Must")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Price is required")]
+        [Required(ErrorMessage = "Price us Must")]
+        //  [NumericNonNegative(ErrorMessage ="Price Cannot be -ve")]
         public int Price { get; set; }
-
-        //reference of Category for foreign key
-       //  [Required(ErrorMessage = "Category Row Id is required")]
-       // public int CategoryRowId { get; set; } 
+        [ForeignKey("CategoryRowId")]
+        public int CategoryRowId { get; set; }
         public Category Category { get; set; }
+    }
+
+    public class numericnonNegativeAttribute: ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if(Convert.ToInt32(value)<0)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
